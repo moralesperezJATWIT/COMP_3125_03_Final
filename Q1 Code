@@ -1,0 +1,39 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+#read csv files inside of Dataset folder
+data2018 = pd.read_csv("Datasets/Incidents_Per_Type_Of_Vesel_2018.csv", sep=',')
+data2018['Year'] = 2018
+data2020 = pd.read_csv("Datasets/Incidents_Per_Type_Of_Vesel_2020.csv", sep=',')
+data2020['Year'] = 2020
+data2022 = pd.read_csv("Datasets/Incidents_Per_Type_Of_Vesel_2022.csv", sep=',')
+data2022['Year'] = 2022
+
+#Data Frames are concatenated along rows
+all_data = pd.concat([data2018, data2020, data2022], sort=False)
+
+#Remove rows with missing values in 'Number Of Attacks'
+#all_data = all_data.dropna(subset=['Number Of Attacks'])
+
+#Create plot
+fig, ax = plt.subplots(figsize=(18, 6))
+
+#pivot for clearer plots
+pivot_data = all_data.pivot(index='Ship Type', columns='Year', values='Number Of Attacks')
+pivot_data.plot(kind='bar', stacked=False, ax=ax, width=0.8)
+
+#Labels
+ax.set_xlabel('Ship Type')
+ax.set_ylabel('Number of Attacks')
+ax.set_title('Number of Attacks by Ship Type (2018-2022)')
+
+#
+ax.set_yticks(range(0, 100, 5))
+ax.set_ylim(0, 60)
+
+#Legend
+ax.legend(title='Year')
+
+#
+plt.show()
