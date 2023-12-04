@@ -7,7 +7,7 @@ to 2022. The goal of this project is to Determine the
 safety of maritime travel and trade.
 
 Data Selection:  
-&emsp;Each Data Set within this repository has been created by myself in microsoft excel. The Data I used to create the Data sets was sourced from International Maritime Bureau
+&emsp;Each Data Set within this repository has been created by myself in microsoft excel. The Data I used to create the Data sets was sourced from International Maritime Bureau. Each Data Set contains multiple categories and there respective value. These values would be cleaned by removing any value that is not given (NG). These values differ from a simple value of 0 because no information was given, possibly by choice.
 
 Citation:  
 ICC International Maritime Beureau. 2022 Annual IMB Piracy and Armed Robbery Report.2023.
