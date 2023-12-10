@@ -1,39 +1,41 @@
-import numpy as np
 import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 
-#read csv files inside of Dataset folder
-data2018 = pd.read_csv("Datasets/Incidents_Per_Type_Of_Vesel_2018.csv", sep=',')
-data2018['Year'] = 2018
-data2020 = pd.read_csv("Datasets/Incidents_Per_Type_Of_Vesel_2020.csv", sep=',')
-data2020['Year'] = 2020
-data2022 = pd.read_csv("Datasets/Incidents_Per_Type_Of_Vesel_2022.csv", sep=',')
-data2022['Year'] = 2022
+# Load the data
+data = pd.read_csv('Datasets/ShipType_Attack.csv')
 
-#Data Frames are concatenated along rows
-all_data = pd.concat([data2018, data2020, data2022], sort=False)
+# Prepare the years for regression (as independent variables)
+years = np.array([2018, 2019, 2020, 2021, 2022]).reshape(-1, 1)
 
-#Remove rows with missing values in 'Number Of Attacks'
-#all_data = all_data.dropna(subset=['Number Of Attacks'])
+# Store predictions
+predictions = {}
 
-#Create plot
-fig, ax = plt.subplots(figsize=(18, 6))
+# Perform linear regression for each ship type
+for ship_type in data['Ship Type']:
+    y = data.loc[data['Ship Type'] == ship_type, '2018':'2022'].values.flatten()
+    model = LinearRegression().fit(years, y)
+    pred = model.predict(np.array([[2023]]))[0]
+    predictions[ship_type] = round(pred)
 
-#pivot for clearer plots
-pivot_data = all_data.pivot(index='Ship Type', columns='Year', values='Number Of Attacks')
-pivot_data.plot(kind='bar', stacked=False, ax=ax, width=0.8)
+# Add predictions to the dataframe
+data['2023'] = data['Ship Type'].map(predictions)
 
-#Labels
-ax.set_xlabel('Ship Type')
-ax.set_ylabel('Number of Attacks')
-ax.set_title('Number of Attacks by Ship Type (2018-2022)')
+# Plotting
+plt.figure(figsize=(20, 15))
+ship_types = data['Ship Type']
+for ship_type in ship_types:
+    plt.plot(range(2018, 2024), data.loc[data['Ship Type'] == ship_type, '2018':'2023'].values.flatten(), marker='o', label=ship_type)
 
-#
-ax.set_yticks(range(0, 100, 5))
-ax.set_ylim(0, 60)
+plt.xlabel('Year')
+plt.ylabel('Number of Attacks')
+plt.title('Ship Type Attacks & 2023 Forecast')
+plt.legend(framealpha=0.5)
+plt.yticks(np.arange(0, 70, 5))
+plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+plt.tight_layout()
 
-#Legend
-ax.legend(title='Year')
-
+plt.show()
 #
 plt.show()
