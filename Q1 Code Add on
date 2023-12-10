@@ -1,0 +1,15 @@
+# Display 2023 predictions
+print("2023 Predictions for Each Ship Type:")
+print(data[['Ship Type', '2023']])
+
+# Plotting
+plt.figure(figsize=(10, 8))
+ship_types = data['Ship Type']
+for ship_type in ship_types:
+    plt.plot(range(2018, 2024), data.loc[data['Ship Type'] == ship_type, '2018':'2023'].values.flatten(), marker='o', label=ship_type)
+
+plt.xlabel('Year')
+plt.ylabel('Number of Attacks')
+plt.title('Ship Type Attacks Forecast for 2023')
+plt.legend()
+plt.show()
