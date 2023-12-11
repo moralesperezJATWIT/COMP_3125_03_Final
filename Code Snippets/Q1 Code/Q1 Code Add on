@@ -13,3 +13,5 @@ plt.ylabel('Number of Attacks')
 plt.title('Ship Type Attacks Forecast for 2023')
 plt.legend()
 plt.show()
+
+#can be placed underneath in its own row to create visualization

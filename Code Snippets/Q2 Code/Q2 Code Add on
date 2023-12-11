@@ -1,0 +1,17 @@
+# Display 2023 predictions
+print("2023 Predictions for Each Country:")
+print(data[['Country', '2023']])
+
+# Plotting
+plt.figure(figsize=(10, 8))
+countries = data['Country']
+for country in countries:
+    plt.plot(range(2018, 2024), data.loc[data['Country'] == country, '2018':'2023'].values.flatten(), marker='o', label=country)
+
+plt.xlabel('Year')
+plt.ylabel('Number of Attacks')
+plt.title('Attack Locations in Asia Forecast for 2023')
+plt.legend()
+plt.show()
+
+#can be placed underneath in its own row to create visualization

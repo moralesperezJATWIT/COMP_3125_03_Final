@@ -17,7 +17,7 @@ for ship_type in data['Ship Type']:
     y = data.loc[data['Ship Type'] == ship_type, '2018':'2022'].values.flatten()
     model = LinearRegression().fit(years, y)
     pred = model.predict(np.array([[2023]]))[0]
-    predictions[ship_type] = round(pred)
+    predictions[ship_type] = max(round(pred), 0)
 
 # Add predictions to the dataframe
 data['2023'] = data['Ship Type'].map(predictions)
@@ -36,6 +36,4 @@ plt.yticks(np.arange(0, 70, 5))
 plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
 plt.tight_layout()
 
-plt.show()
-#
 plt.show()

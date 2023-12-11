@@ -1,0 +1,40 @@
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+
+# Load the data
+data = pd.read_csv('Datasets/Attack_Location_Asia.csv')
+
+# Prepare the years for regression (as independent variables)
+years = np.array([2018, 2019, 2020, 2021, 2022]).reshape(-1, 1)
+
+# Store predictions
+predictions = {}
+
+# Perform linear regression for each country
+for country in data['Country']:
+    y = data.loc[data['Country'] == country, '2018':'2022'].values.flatten()
+    model = LinearRegression().fit(years, y)
+    pred = model.predict(np.array([[2023]]))[0]
+    # Ensure prediction is not less than 0
+    predictions[country] = max(round(pred), 0)
+
+# Add predictions to the dataframe
+data['2023'] = data['Country'].map(predictions)
+
+# Plotting
+plt.figure(figsize=(20, 15))
+countries = data['Country']
+for country in countries:
+    plt.plot(range(2018, 2024), data.loc[data['Country'] == country, '2018':'2023'].values.flatten(), marker='o', label=country)
+
+plt.xlabel('Year')
+plt.ylabel('Number of Attacks')
+plt.title('Attacks in Asia by location & 2023 Forecast')
+plt.legend(framealpha=0.5)
+plt.yticks(np.arange(0, max(data['2023']) + 5, 5))
+plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+plt.tight_layout()
+
+plt.show()

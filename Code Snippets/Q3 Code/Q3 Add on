@@ -1,0 +1,15 @@
+# Data for the pie chart
+labels = 'Berthed', 'Anchored', 'Steaming'
+sizes = [likelihood_berthed, likelihood_anchored, likelihood_steaming]
+colors = ['gold', 'lightcoral', 'lightskyblue']
+explode = (0, 0, 0)  # explode 1st slice (Berthed)
+
+# Plot
+plt.figure(figsize=(10, 10))
+plt.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=140)
+plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+plt.title('Likelihood of Being Attacked based off Ship Status')
+plt.show()
+
+#can be placed underneath main code or in its own row to create visualization

@@ -1,0 +1,21 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Creating a DataFrame
+df = pd.read_csv('Datasets/ship_status_2022.csv')
+
+# Calculate total attacks per status
+total_berthed = df['Berthed'].sum()
+total_anchored = df['Anchored'].sum()
+total_steaming = df['Steaming'].sum()
+
+# Calculate total attacks
+total_attacks = total_berthed + total_anchored + total_steaming
+
+# Estimate likelihood
+likelihood_berthed = total_berthed / total_attacks
+likelihood_anchored = total_anchored / total_attacks
+likelihood_steaming = total_steaming / total_attacks
+
+likelihood_berthed, likelihood_anchored, likelihood_steaming
